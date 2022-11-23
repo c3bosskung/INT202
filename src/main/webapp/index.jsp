@@ -65,6 +65,25 @@
             }
         }
 
+        function addToCart(productCode) {
+            setLoading('on')
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                setLoading('off');
+                cartInfo = document.getElementById("noOfItemInCart");
+                noOfItem = xhttp.responseText;
+//                alert("Response = "+ noOfItem);
+                if (noOfItem > 0) {
+                    cartInfo.style.display = 'inline'
+                } else {
+                    cartInfo.style.display = 'none'
+                }
+                cartInfo.innerHTML = noOfItem;
+            }
+            xhttp.open("GET", "add-to-cart?productCode=" + productCode);
+            xhttp.send();
+        }
+
     </script>
 
 </head>
