@@ -18,12 +18,14 @@ public class ProductListServlet extends HttpServlet {
         String pageSizeParam = request.getParameter("pageSize");
         int page = pageParam == null? 1 : Integer.parseInt(pageParam);
         int pageSize = pageSizeParam == null? productRepository.getDefaultPageSize() : Integer.parseInt(pageSizeParam);
+        int itemCount = productRepository.countAll();
+        int totalPage = itemCount / pageSize + (itemCount % pageSize == 0? 0 : 1);
 
         List<Product> productList = productRepository.findAll(page, pageSize);
         request.setAttribute("products", productList);
         request.setAttribute("page", page);
         request.setAttribute("pageSize", pageSize);
-        request.setAttribute("totalPage", productRepository.countAll());
+        request.setAttribute("totalPage", totalPage);
         getServletContext().getRequestDispatcher("/ProductList.jsp").forward(request, response);
     }
 

@@ -25,18 +25,15 @@
         <div class="px-1 mx-1 div-link"
              onclick="loadProduct(page=${page<=1?totalPage:page-1}, ${pageSize})"> &lt;
         </div>
-        <c:set var="totalPage" value="${totalPage/pageSize}"></c:set>
         <c:forEach begin="1" end="${totalPage}" varStatus="vs">
             <c:choose>
                 <c:when test="${vs.count==page}">
                     <div class="px-1 mx-1 div-link text-light bg-dark"> ${vs.count} </div>
                 </c:when>
                 <c:otherwise>
-                    <a href="product-list?page=${vs.count}">
-                    <div class="px-1 mx-1 div-link">
+                    <div class="px-1 mx-1 div-link" onclick="loadProduct(${vs.count})">
                             ${vs.count}
                     </div>
-                    </a>
                 </c:otherwise>
             </c:choose>
         </c:forEach>
