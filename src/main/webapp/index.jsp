@@ -33,8 +33,10 @@
 
     <script>
         function loadOffice(officeCode) {
+            setLoading('on')
             const xhttp = new XMLHttpRequest()
             xhttp.onload = () => {
+                setLoading('off')
                 document.getElementById('body-content').innerHTML = xhttp.responseText
             }
             xhttp.open('GET', 'office-list?officeCode=' + officeCode)
@@ -42,13 +44,27 @@
         }
 
         function loadProduct(page, pageSize = document.getElementById('itemsPage').value) {
+            setLoading('on')
             const xhttp = new XMLHttpRequest()
             xhttp.onload = () => {
+                setLoading('off')
                 document.getElementById('body-content').innerHTML = xhttp.responseText;
             }
             xhttp.open("GET", "product-list?page=" + page + "&pageSize=" + pageSize)
             xhttp.send()
         }
+
+        function setLoading(on_off) {
+            let loading = document.getElementById("loading")
+            if(on_off == 'on') {
+                loading.classList.remove('d-none')
+                loading.classList.add('d-inline')
+            } else {
+                loading.classList.remove('d-inline')
+                loading.classList.add('d-none')
+            }
+        }
+
     </script>
 
 </head>
@@ -88,6 +104,10 @@
 </nav>
 <div class="container" id="body-content">
     <jsp:include page="assets/home-info.html"/>
+</div>
+<div class="d-flex justify-content-center modal d-none" id="loading">
+    <div class="spinner-border text-primary"
+         style="margin-top: 10%; width: 6rem; height: 6rem;"></div>
 </div>
 </body>
 </html>
