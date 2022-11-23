@@ -26,6 +26,10 @@ public class ProductRepository {
         return getEntityManager().getTransaction();
     }
 
+    public Product find(String productCode) {
+        return getEntityManager().find(Product.class, productCode);
+    }
+
     public List<Product> findAll(int page) {
         return findAll(page, PAGE_SIZE);
     }
