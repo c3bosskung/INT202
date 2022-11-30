@@ -56,7 +56,7 @@
 
         function setLoading(on_off) {
             let loading = document.getElementById("loading")
-            if(on_off == 'on') {
+            if (on_off == 'on') {
                 loading.classList.remove('d-none')
                 loading.classList.add('d-inline')
             } else {
@@ -83,6 +83,51 @@
             xhttp.open("GET", "add-to-cart?productCode=" + productCode);
             xhttp.send();
         }
+
+        function showLoginForm() {
+            let menu = document.getElementById("login-menu").innerHTML;
+            if (menu.includes('Logout')) {
+                logout();
+            } else {
+                $('#modalLoginForm').modal('show');
+            }
+        }
+
+        function logout() {
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                location.reload();
+            }
+            xhttp.open("GET", "logout");
+            xhttp.send();
+        }
+
+        function login(userName, password) {
+            if (userName == '' || password == '' || userName == undefined) {
+                document.getElementById("login-message").innerHTML = "Invalid user name or password !!!";
+            }
+            setLoading('on')
+            const xhttp = new XMLHttpRequest();
+            xhttp.onload = function () {
+                setLoading('off');
+                if (xhttp.status == 200) {
+                    $('#modalLoginForm').modal('hide');
+                    document.getElementById("login-menu").innerHTML = "<i class='bi bi-box-arrow-left'></i> Logout"
+                } else if (xhttp.status > 400) {
+                    document.getElementById("login-message").innerHTML = xhttp.statusText;
+                } else {
+                    document.getElementById("login-message").innerHTML = "Wrong user name or password !!!";
+                }
+            }
+            let urlEncodedData = "", urlEncodedDataPairs = [];
+            urlEncodedDataPairs.push(encodeURIComponent("userName") + '=' + encodeURIComponent(userName));
+            urlEncodedDataPairs.push(encodeURIComponent("password") + '=' + encodeURIComponent(password));
+            urlEncodedData = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
+            xhttp.open("POST", "login");
+            xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhttp.send(urlEncodedData);
+        }
+
 
     </script>
 
@@ -127,6 +172,39 @@
 <div class="d-flex justify-content-center modal d-none" id="loading">
     <div class="spinner-border text-primary"
          style="margin-top: 10%; width: 6rem; height: 6rem;"></div>
+</div>
+<div class="modal fade" id="modalLoginForm" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Sign in</h4>
+                <button type="button" class="close"
+                        onclick="$('#modalLoginForm').modal('hide')">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body mx-3">
+                <div class="md-form mb-2">
+                    <i class="bi bi-person-lines-fill h3"></i>
+                    <input type="email" id="defaultForm-user" class="form-control validate">
+                    <label data-error="wrong" data-success="right" for="defaultForm-user">User name</label>
+                </div>
+                <div class="md-form mb-2">
+                    <i class="bi bi-key h3"></i>
+                    <input type="password" id="defaultForm-pass" class="form-control validate">
+                    <label data-error="wrong" data-success="right" for="defaultForm-pass">Your password</label>
+                </div>
+                <div class="md-form mt-2">
+                    <label class="text-danger" id="login-message"></label>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button class="btn btn-primary"
+                        onclick="login($('#defaultForm-user').val(), $('#defaultForm-pass').val())">Login
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
