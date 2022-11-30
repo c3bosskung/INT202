@@ -8,6 +8,7 @@
         <class>sit.int202.classsicmodels.entites.Office</class>
         <class>sit.int202.classsicmodels.entites.Employee</class>
         <class>sit.int202.classsicmodels.entites.Product</class>
+        <class>sit.int202.classsicmodels.entites.Customer</class>
 
         <properties>
             <property name="jakarta.persistence.jdbc.driver"
