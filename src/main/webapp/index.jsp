@@ -96,7 +96,7 @@
         function logout() {
             const xhttp = new XMLHttpRequest();
             xhttp.onload = function () {
-                location.reload();
+                document.getElementById("login-menu").innerHTML = "<i class='bi bi-box-arrow-in-right'></i> Login"
             }
             xhttp.open("GET", "logout");
             xhttp.send();
@@ -166,7 +166,7 @@
         </div>
     </div>
 </nav>
-<div class="container" id="body-content">
+<div class="container" id="body-content" style="padding: 2.5rem">
     <jsp:include page="assets/home-info.html"/>
 </div>
 <div class="d-flex justify-content-center modal d-none" id="loading">
